@@ -17,10 +17,12 @@ public static class SortingAlgorithms
         arraySwaps = 0;
         arrayAccesses = 0;
 
-        int upperBound = arr.Length;
+        int upperBound = arr.Length - 1;
+        int newUpper;
         for (int i = 0; i < arr.Length; i++)
         {
-            upperBound--;
+            //upperBound--;
+            newUpper = 0;
             for (int j = 0; j < upperBound; j++)
             {
                 comparisons++;
@@ -30,10 +32,12 @@ public static class SortingAlgorithms
                     arraySwaps++;
                     arrayAccesses += 2;
                     arr.MoveSwap(j, j + 1);
+                    newUpper = j;
                     yield return new WaitWhile(() => arr.GetElement(j).IsMoving);
                 }
                 //TODO, else, pause here w/ the markers showing above the avatars' heads
             }
+            upperBound = newUpper;
         }
     }
 

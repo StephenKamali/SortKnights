@@ -106,7 +106,7 @@ MonoBehaviour:
   marker: {fileID: 8020908246528232157, guid: fa9babe74c6ad8848b04ae0abcff5c23, type: 3}
   markerHeight: 0.5
   markerSize: 1
-  moveSpeed: 1.2
+  moveSpeed: 4
 --- !u!1 &7933032727086343685
 GameObject:
   m_ObjectHideFlags: 0
