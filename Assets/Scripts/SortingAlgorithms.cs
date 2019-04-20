@@ -32,7 +32,35 @@ public static class SortingAlgorithms
                     arr.MoveSwap(j, j + 1);
                     yield return new WaitWhile(() => arr.GetElement(j).IsMoving);
                 }
+                //TODO, else, pause here w/ the markers showing above the avatars' heads
             }
         }
+    }
+
+    public static IEnumerator InsertionSort(Array2D arr)
+    {
+        comparisons = 0;
+        arraySwaps = 0;
+        arrayAccesses = 0;
+
+        for (int i = 1; i < arr.Length; i++)
+        {
+            for (int j = i; (j > 0) && (arr.GetElement(j - 1).Value > arr.GetElement(j).Value); j--)
+            {
+                comparisons++;
+                arrayAccesses += 2;
+                arraySwaps++;
+                arr.MoveSwap(j - 1, j);
+                yield return new WaitWhile(() => arr.GetElement(j).IsMoving);
+            }
+            //TODO, this will overcount in the case where j > 0 caused the loop to break
+            comparisons++;
+            arrayAccesses += 2;
+        }
+    }
+
+    public static IEnumerator MergeSort(Array2D arr)
+    {
+        yield return null;
     }
 }
