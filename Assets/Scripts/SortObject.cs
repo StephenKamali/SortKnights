@@ -18,6 +18,8 @@ public class SortObject : MonoBehaviour
     private bool isMoving;
     private GameObject markerObj;
 
+    private static float timeSpeed = 1f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +35,7 @@ public class SortObject : MonoBehaviour
     {
         if (isMoving)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * timeSpeed * Time.deltaTime);
             if (Vector3.Distance(transform.position, target) <= 0.01f)
             {
                 transform.rotation = originalRot;
@@ -53,6 +55,12 @@ public class SortObject : MonoBehaviour
         anim.SetBool("isRunning", true);
         markerObj.SetActive(true);
         isMoving = true;
+    }
+
+    //TODO - this may not be the cleanest way to implement speed
+    public static void SetTimeSpeed(float speed)
+    {
+        timeSpeed = speed;
     }
 
     public int Value

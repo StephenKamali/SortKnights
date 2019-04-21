@@ -17,6 +17,10 @@ public class DemoManager : MonoBehaviour
     public UnityEngine.UI.Button play;
     public UnityEngine.UI.Button randomize;
 
+    // Speed
+    public UnityEngine.UI.Slider speedSlider;
+    public UnityEngine.UI.Text speedText;
+
     private bool isPlaying;
 
     private Coroutine currAlgorithm;
@@ -56,5 +60,12 @@ public class DemoManager : MonoBehaviour
     public void Randomize()
     {
         array.Randomize(100);
+    }
+
+    public void ChangeSpeed()
+    {
+        float speed = speedSlider.value * .25f;
+        speedText.text = "Speed " + speed.ToString("N2") + "x";
+        SortObject.SetTimeSpeed(speed);
     }
 }
