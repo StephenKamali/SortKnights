@@ -24,7 +24,6 @@ public class SortObject : MonoBehaviour
     void Start()
     {
         //anim = GetComponent<Animator>();
-        Debug.Log("Start called");
         markerObj = Instantiate(marker, transform.position + (Vector3.up * markerHeight), Quaternion.identity, transform);
         markerObj.transform.localScale = Vector3.one * markerSize;
         markerObj.SetActive(false);
@@ -55,6 +54,16 @@ public class SortObject : MonoBehaviour
         anim.SetBool("isRunning", true);
         markerObj.SetActive(true);
         isMoving = true;
+    }
+
+    public void SetMarkerActive(bool status)
+    {
+        markerObj.SetActive(status);
+    }
+
+    public static float GetTimeSpeed()
+    {
+        return timeSpeed;
     }
 
     //TODO - this may not be the cleanest way to implement speed

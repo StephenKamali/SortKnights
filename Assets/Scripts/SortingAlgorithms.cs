@@ -11,6 +11,8 @@ public static class SortingAlgorithms
     // An access counts as reading a value from the array
     public static int arrayAccesses;
 
+    private static float compareDelay = 0.5f;
+
     public static IEnumerator BubbleSort(Array2D arr)
     {
         comparisons = 0;
@@ -27,6 +29,16 @@ public static class SortingAlgorithms
             {
                 comparisons++;
                 arrayAccesses += 2;
+
+                if (compareDelay > 0)
+                {
+                    arr.GetElement(j).SetMarkerActive(true);
+                    arr.GetElement(j + 1).SetMarkerActive(true);
+                    yield return new WaitForSeconds(compareDelay / SortObject.GetTimeSpeed());
+                    arr.GetElement(j).SetMarkerActive(false);
+                    arr.GetElement(j + 1).SetMarkerActive(false);
+                }
+
                 if (arr.GetElement(j).Value > arr.GetElement(j + 1).Value)
                 {
                     arraySwaps++;
@@ -35,7 +47,6 @@ public static class SortingAlgorithms
                     newUpper = j;
                     yield return new WaitWhile(() => arr.GetElement(j).IsMoving);
                 }
-                //TODO, else, pause here w/ the markers showing above the avatars' heads
             }
             upperBound = newUpper;
         }
@@ -49,13 +60,31 @@ public static class SortingAlgorithms
 
         for (int i = 1; i < arr.Length; i++)
         {
-            for (int j = i; (j > 0) && (arr.GetElement(j - 1).Value > arr.GetElement(j).Value); j--)
+            for (int j = i; j > 0; j--)
             {
                 comparisons++;
                 arrayAccesses += 2;
-                arraySwaps++;
-                arr.MoveSwap(j - 1, j);
-                yield return new WaitWhile(() => arr.GetElement(j).IsMoving);
+
+                if (compareDelay > 0)
+                {
+                    arr.GetElement(j - 1).SetMarkerActive(true);
+                    arr.GetElement(j).SetMarkerActive(true);
+                    yield return new WaitForSeconds(compareDelay / SortObject.GetTimeSpeed());
+                    arr.GetElement(j - 1).SetMarkerActive(false);
+                    arr.GetElement(j).SetMarkerActive(false);
+                }
+
+                if (arr.GetElement(j - 1).Value > arr.GetElement(j).Value)
+                {
+                    arraySwaps++;
+                    arr.MoveSwap(j - 1, j);
+                    yield return new WaitWhile(() => arr.GetElement(j).IsMoving);
+                }
+                else
+                {
+                    //TODO, is there a cleaner way to do this without a break?
+                    break;
+                }
             }
             //TODO, this will overcount in the case where j > 0 caused the loop to break
             comparisons++;

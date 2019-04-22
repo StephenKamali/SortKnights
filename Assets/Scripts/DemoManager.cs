@@ -46,7 +46,7 @@ public class DemoManager : MonoBehaviour
             isPlaying = true;
             randomize.interactable = false;
             play.GetComponentInChildren<UnityEngine.UI.Text>().text = "Stop";
-            currAlgorithm = StartCoroutine(SortingAlgorithms.InsertionSort(array));
+            currAlgorithm = StartCoroutine(SortingAlgorithms.BubbleSort(array));
         }
         else
         {
@@ -67,5 +67,10 @@ public class DemoManager : MonoBehaviour
         float speed = speedSlider.value * .25f;
         speedText.text = "Speed " + speed.ToString("N2") + "x";
         SortObject.SetTimeSpeed(speed);
+    }
+
+    public void ChangeCompareDelay()
+    {
+        //TODO - allow delay to be changed(or disabled completely)
     }
 }
