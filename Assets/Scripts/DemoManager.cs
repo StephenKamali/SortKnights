@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Sort { BubbleSort, SelectionSort, MergeSort, QuickSort };
+// Order of sorts in enum should be same as order in dropdown list, for now
+public enum Sort { BubbleSort, InsertionSort, MergeSort, QuickSort };
 
 public class DemoManager : MonoBehaviour
 {
     public Array2D array;
-    
+
+    // Algorithm choice
+    public UnityEngine.UI.Text sortTitleText;
+    public UnityEngine.UI.Dropdown algorithmDropdown;
+
     // Stats
     public UnityEngine.UI.Text comparisons;
     public UnityEngine.UI.Text arraySwaps;
@@ -23,20 +28,29 @@ public class DemoManager : MonoBehaviour
 
     private bool isPlaying;
 
+    private delegate IEnumerator Algorithm(Array2D arr);
+    private Algorithm selectedAlgorithm;
     private Coroutine currAlgorithm;
 
     // Start is called before the first frame update
     void Start()
     {
-        //array.Randomize(100);
-        //StartCoroutine(SortingAlgorithms.BubbleSort(array));
+        selectedAlgorithm = new Algorithm(SortingAlgorithms.BubbleSort);
     }
 
     void Update()
     {
-        comparisons.text =   "Comparisons    " + SortingAlgorithms.comparisons;
-        arraySwaps.text =    "Array Swaps    " + SortingAlgorithms.arraySwaps;
-        arrayAccesses.text = "Array Accesses " + SortingAlgorithms.arrayAccesses;
+        if (!SortingAlgorithms.isFinished)
+        {
+            //TODO, update text in a more efficient way than every frame
+            comparisons.text = "Comparisons    " + SortingAlgorithms.comparisons;
+            arraySwaps.text = "Array Swaps    " + SortingAlgorithms.arraySwaps;
+            arrayAccesses.text = "Array Accesses " + SortingAlgorithms.arrayAccesses;
+        }
+        else if (isPlaying)
+        {
+            StartStop();
+        }
     }
 
     public void StartStop()
@@ -45,13 +59,15 @@ public class DemoManager : MonoBehaviour
         {
             isPlaying = true;
             randomize.interactable = false;
+            algorithmDropdown.interactable = false;
             play.GetComponentInChildren<UnityEngine.UI.Text>().text = "Stop";
-            currAlgorithm = StartCoroutine(SortingAlgorithms.BubbleSort(array));
+            currAlgorithm = StartCoroutine(selectedAlgorithm(array));
         }
         else
         {
             isPlaying = false;
             randomize.interactable = true;
+            algorithmDropdown.interactable = true;
             play.GetComponentInChildren<UnityEngine.UI.Text>().text = "Start";
             StopCoroutine(currAlgorithm);
         }
@@ -60,6 +76,29 @@ public class DemoManager : MonoBehaviour
     public void Randomize()
     {
         array.Randomize(100);
+    }
+
+    public void ChangeSort()
+    {
+        switch ((Sort)algorithmDropdown.value)
+        {
+            case Sort.BubbleSort:
+                selectedAlgorithm = new Algorithm(SortingAlgorithms.BubbleSort);
+                sortTitleText.text = "Bubble Sort";
+                break;
+
+            case Sort.InsertionSort:
+                selectedAlgorithm = new Algorithm(SortingAlgorithms.InsertionSort);
+                sortTitleText.text = "Insertion Sort";
+                break;
+
+            default:
+                Debug.LogError("Unknown sort");
+                break;
+        }
+        comparisons.text = "Comparisons    " + 0;
+        arraySwaps.text = "Array Swaps    " + 0;
+        arrayAccesses.text = "Array Accesses " + 0;
     }
 
     public void ChangeSpeed()

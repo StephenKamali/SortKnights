@@ -2141,7 +2141,7 @@ GameObject:
   - component: {fileID: 1581302467}
   - component: {fileID: 1581302466}
   m_Layer: 5
-  m_Name: Dropdown
+  m_Name: AlgorithmDropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2219,13 +2219,22 @@ MonoBehaviour:
     m_Options:
     - m_Text: Bubble Sort
       m_Image: {fileID: 0}
-    - m_Text: Merge Sort
-      m_Image: {fileID: 0}
-    - m_Text: Quick Sort
+    - m_Text: Insertion Sort
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1945919256}
+        m_MethodName: ChangeSort
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Dropdown+DropdownEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_AlphaFadeSpeed: 0.15
@@ -2843,6 +2852,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   array: {fileID: 820063189}
+  sortTitleText: {fileID: 1150303139}
+  algorithmDropdown: {fileID: 1581302466}
   comparisons: {fileID: 1851194253}
   arraySwaps: {fileID: 1272651253}
   arrayAccesses: {fileID: 544557753}

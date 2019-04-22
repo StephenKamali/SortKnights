@@ -11,10 +11,14 @@ public static class SortingAlgorithms
     // An access counts as reading a value from the array
     public static int arrayAccesses;
 
+    // TODO, may want to make this private
+    public static bool isFinished = true;
+
     private static float compareDelay = 0.5f;
 
     public static IEnumerator BubbleSort(Array2D arr)
     {
+        isFinished = false;
         comparisons = 0;
         arraySwaps = 0;
         arrayAccesses = 0;
@@ -50,10 +54,13 @@ public static class SortingAlgorithms
             }
             upperBound = newUpper;
         }
+
+        isFinished = true;
     }
 
     public static IEnumerator InsertionSort(Array2D arr)
     {
+        isFinished = false;
         comparisons = 0;
         arraySwaps = 0;
         arrayAccesses = 0;
@@ -90,6 +97,8 @@ public static class SortingAlgorithms
             comparisons++;
             arrayAccesses += 2;
         }
+
+        isFinished = true;
     }
 
     public static IEnumerator MergeSort(Array2D arr)
